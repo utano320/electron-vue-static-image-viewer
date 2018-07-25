@@ -11,11 +11,12 @@
       <img
         v-show="isFixed"
         :id="id()"
-        :src="'static/images/' + imageFileName()"
+        :src="'static/images/' + imageFileNameFull()"
         :alt="imageFileName()"
         @load="onLoad" @error="onError"
       />
     </transition>
+    <p>{{ imageFileName() }}</p>
   </div>
 </template>
 
@@ -71,7 +72,7 @@ export default {
         width: this.boxSize + "px",
         height: this.boxSize + "px",
         opacity: this.isExists
-          ? this.hoverIndex === 0 || this.isHover() ? 1 : 0.5
+          ? this.hoverIndex === 0 || this.isHover() ? 1 : 1
           : 0
       };
     },
@@ -85,6 +86,9 @@ export default {
       return "image-item_" + this.index;
     },
     imageFileName() {
+      return _.padStart(this.index, 2, 0);
+    },
+    imageFileNameFull() {
       return _.padStart(this.index, 2, 0) + ".jpg";
     },
     onLoad(e) {
@@ -94,7 +98,7 @@ export default {
 
       this.updateImageInfo(this.index, el.width, el.height);
 
-      let s = this.boxSize * 0.9;
+      let s = this.boxSize * 0.7;
       let rtW = this.ctW / s;
       let rtH = this.ctH / s;
 
@@ -140,7 +144,14 @@ img {
   right: 0;
   margin: auto;
 }
-
+p {
+  position: absolute;
+  margin: 0;
+  bottom: 4%;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
 .v-enter-active,
 .v-leave-active {
   transition: opacity 3s;
