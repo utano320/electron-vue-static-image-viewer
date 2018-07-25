@@ -4,10 +4,16 @@
     <div id="image-viewer-wrapper">
       <img
         id="image-viewer-content"
-        :src="'static/images/' + imageFileName"
+        :src="'static/images/' + imageFileNameFull"
         :alt="imageFileName"
         @load="onLoad"
       />
+      <p
+        id="image-viewer-filename"
+        :style="imageViewerFilenameStyle()"
+      >
+        {{ imageFileName }}
+      </p>
     </div>
   </div>
 </template>
@@ -36,12 +42,26 @@ export default {
       default: 0
     }
   },
+  data() {
+    return {
+      fileNameFontSize: 20
+    };
+  },
   computed: {
     imageFileName() {
+      return _.padStart(this.selectIndex, 2, 0);
+    },
+    imageFileNameFull() {
       return _.padStart(this.selectIndex, 2, 0) + ".jpg";
     }
   },
   methods: {
+    imageViewerFilenameStyle() {
+      return {
+        bottom: "-" + this.fileNameFontSize * 2 + "px",
+        fontSize: this.fileNameFontSize + "px"
+      };
+    },
     onLoad() {
       this.resize();
     },
@@ -66,6 +86,8 @@ export default {
         ct.style.width = this.imageWidth / rtH + "px";
         ct.style.height = wpH + "px";
       }
+
+      this.fileNameFontSize = wpH * 0.03;
     }
   },
   watch: {
@@ -113,5 +135,15 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
+}
+#image-viewer-filename {
+  position: absolute;
+  margin: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #666;
+  font-weight: bold;
 }
 </style>
