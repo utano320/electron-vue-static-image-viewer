@@ -5,7 +5,7 @@
         v-for="i in maxImageCount"
         :key="i"
         :index="i"
-        :box-size="300"
+        :box-size="274"
         :hover-index="hoverIndex"
         :select-index="selectIndex"
         :update-image-info="updateImageInfo"
@@ -107,6 +107,7 @@ export default {
 <style scoped>
 #app {
   position: relative;
+  background-color: #fff;
 }
 
 #imagebox {

@@ -127,13 +127,13 @@ export default {
 
 <style scoped>
 .image-wrapper {
-  background-color: #efefef;
+  background-color: #fff;
   position: relative;
   cursor: pointer;
 }
 
 .image-wrapper:hover {
-  background-color: #ccc;
+  background-color: #efefef;
 }
 
 img {
