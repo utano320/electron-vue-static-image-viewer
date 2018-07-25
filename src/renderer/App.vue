@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <h1>Static Image Viewer</h1>
-    <span>powerd by utano320</span>
-
     <div id="imagebox">
       <ImageItem
         v-for="i in maxImageCount"
