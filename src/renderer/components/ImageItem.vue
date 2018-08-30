@@ -11,7 +11,7 @@
       <img
         v-show="isFixed"
         :id="id()"
-        :src="'static/images/' + imageFileNameFull()"
+        :src="imageFileNameFull()"
         :alt="imageFileName()"
         @load="onLoad" @error="onError"
       />
@@ -30,6 +30,10 @@ export default {
     boxSize: {
       type: Number,
       default: 100
+    },
+    filePaths: {
+      type: Array,
+      default: null
     },
     hoverIndex: {
       type: Number,
@@ -86,15 +90,23 @@ export default {
       return "image-item_" + this.index;
     },
     imageFileName() {
-      return _.padStart(this.index, 2, 0);
+      let dir = this.filePaths[this.index - 1].split("/");
+      return dir[dir.length - 1];
     },
     imageFileNameFull() {
-      return _.padStart(this.index, 2, 0) + ".jpg";
+      return this.filePaths[this.index - 1];
     },
-    onLoad(e) {
-      let el = e.target;
+    calcSize() {
+      this.isExists = false;
+      this.isFixed = false;
+
+      let el = document.getElementById(this.id());
+      el.setAttribute("width", "");
+      el.setAttribute("height", "");
+
       this.ctW = el.width;
       this.ctH = el.height;
+      console.log([this.id(), this.ctW, this.ctH]);
 
       this.updateImageInfo(this.index, el.width, el.height);
 
@@ -117,6 +129,9 @@ export default {
 
       this.isExists = true;
       this.isFixed = true;
+    },
+    onLoad(e) {
+      this.calcSize();
     },
     onError() {
       this.isFixed = true;

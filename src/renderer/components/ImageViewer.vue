@@ -3,8 +3,9 @@
     <div id="image-viewer-bg"></div>
     <div id="image-viewer-wrapper">
       <img
+        v-if="selectIndex != 0"
         id="image-viewer-content"
-        :src="'static/images/' + imageFileNameFull"
+        :src="imageFileNameFull"
         :alt="imageFileName"
         @load="onLoad"
       />
@@ -24,6 +25,10 @@ export default {
     selectIndex: {
       type: Number,
       default: 0
+    },
+    filePaths: {
+      type: Array,
+      default: null
     },
     appWidth: {
       type: Number,
@@ -49,10 +54,13 @@ export default {
   },
   computed: {
     imageFileName() {
-      return _.padStart(this.selectIndex, 2, 0);
+      if (this.selectIndex === 0) return "";
+      let dir = this.filePaths[this.selectIndex - 1].split("/");
+      return dir[dir.length - 1];
     },
     imageFileNameFull() {
-      return _.padStart(this.selectIndex, 2, 0) + ".jpg";
+      if (this.selectIndex === 0) return "";
+      return this.filePaths[this.selectIndex - 1];
     }
   },
   methods: {
@@ -66,6 +74,8 @@ export default {
       this.resize();
     },
     resize() {
+      if (this.selectIndex === 0) return;
+
       let ct = document.getElementById("image-viewer-content");
       let wp = document.getElementById("image-viewer-wrapper");
       let wpW = wp.clientWidth;
